@@ -101,22 +101,20 @@ static const int kDefaultBlurInterval = 0.5;
 
 -(void)forceUpdateBlur
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        @synchronized(self){
-            [self.stillImageSource update];
-        }
-        UIImage *processedImage = [self.filter imageFromCurrentlyProcessedOutput];
-        
-        CABasicAnimation *crossFade = [CABasicAnimation animationWithKeyPath:@"contents"];
-        crossFade.duration = 0.5;
-        crossFade.fromValue = (__bridge id)(self.blurredImageView.image.CGImage);
-        crossFade.toValue = (__bridge id)(processedImage.CGImage);
-        
-        [self.blurredImageView.layer addAnimation:crossFade forKey:kCATransition];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.blurredImageView setImage:processedImage];
-        });
+    @synchronized(self){
+        [self.stillImageSource update];
+    }
+    UIImage *processedImage = [self.filter imageFromCurrentlyProcessedOutput];
+    
+    CABasicAnimation *crossFade = [CABasicAnimation animationWithKeyPath:@"contents"];
+    crossFade.duration = 0.1;
+    crossFade.fromValue = (__bridge id)(self.blurredImageView.image.CGImage);
+    crossFade.toValue = (__bridge id)(processedImage.CGImage);
+    
+    [self.blurredImageView.layer addAnimation:crossFade forKey:kCATransition];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.blurredImageView setImage:processedImage];
     });
 }
 
