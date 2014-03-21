@@ -6,19 +6,19 @@ I use a condensed version of [GPUImage](https://github.com/BradLarson/GPUImage) 
 
 # Usage
 
-## For live blur:
+#### For live blur:
 
-> \#import "MSLiveBlur.h"
-> MSLiveBlurView* blurView = [[MSLiveBlurView alloc] initWithFrame:self.view.bounds];
+    \#import "MSLiveBlur.h"
+    MSLiveBlurView* blurView = [[MSLiveBlurView alloc] initWithFrame:self.view.bounds];
 
-## For static blur:
+#### For static blur:
 
-> \#import "MSLiveBlur.h"
-> MSLiveBlurView* blurView = [[MSLiveBlurView alloc] initWithFrame:self.view.bounds blurInterval:kLiveBlurIntervalStatic radius:5];
+    \#import "MSLiveBlur.h"
+    MSLiveBlurView* blurView = [[MSLiveBlurView alloc] initWithFrame:self.view.bounds blurInterval:kLiveBlurIntervalStatic radius:5];
 
 then, to update manually:
 
-> [blurView forceUpdateBlur];
+    [blurView forceUpdateBlur];
 
 # Todo:
 * Specify the size of the blurred area so it does not blur the entire screen (i.e. actually use the given frame)
