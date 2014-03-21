@@ -17,4 +17,6 @@ extern const int kLiveBlurIntervalStatic;
 
 -(void)forceUpdateBlur;
 
+@property CGRect frame;
+
 @end

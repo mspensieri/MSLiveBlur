@@ -29,6 +29,8 @@ static const int kDefaultBlurInterval = 0.5;
 
 @implementation MSLiveBlurView
 
+@synthesize frame = _frame;
+
 +(void)load
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidFinishLaunching) name:UIApplicationDidFinishLaunchingNotification object:nil];
@@ -46,6 +48,7 @@ static const int kDefaultBlurInterval = 0.5;
         blurWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         blurWindow.backgroundColor = [UIColor clearColor];
         blurWindow.windowLevel = UIWindowLevelNormal + 1;
+        blurWindow.userInteractionEnabled = NO;
     }
 }
 
@@ -69,11 +72,31 @@ static const int kDefaultBlurInterval = 0.5;
         
         [self.stillImageSource addTarget:self.filter];
         
+        [self setFrame:frame];
+        
         if(interval != kLiveBlurIntervalStatic){
             self.blurTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(forceUpdateBlur) userInfo:nil repeats:YES];
         }
     }
     return self;
+}
+
+-(void)setFrame:(CGRect)frame
+{
+    _frame = frame;
+    
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    CGRect maskRect = _frame;
+    CGPathRef path = CGPathCreateWithRect(maskRect, NULL);
+    maskLayer.path = path;
+    CGPathRelease(path);
+    
+    self.blurredImageView.layer.mask = maskLayer;
+}
+
+-(CGRect)frame
+{
+    return _frame;
 }
 
 -(void)forceUpdateBlur
