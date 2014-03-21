@@ -1,0 +1,551 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DC8EF73C18DCB730006E1433 /* MSMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8EF72118DCB730006E1433 /* MSMainViewController.m */; };
+		DC8EF73D18DCB730006E1433 /* GPUImageContext.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8EF72518DCB730006E1433 /* GPUImageContext.m */; };
+		DC8EF73E18DCB730006E1433 /* GLProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8EF72718DCB730006E1433 /* GLProgram.m */; };
+		DC8EF73F18DCB730006E1433 /* GPUImageBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8EF72918DCB730006E1433 /* GPUImageBuffer.m */; };
+		DC8EF74018DCB730006E1433 /* GPUImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8EF72B18DCB730006E1433 /* GPUImageFilter.m */; };
+		DC8EF74118DCB730006E1433 /* GPUImageGaussianBlurFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8EF72D18DCB730006E1433 /* GPUImageGaussianBlurFilter.m */; };
+		DC8EF74218DCB730006E1433 /* GPUImageOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8EF72F18DCB730006E1433 /* GPUImageOutput.m */; };
+		DC8EF74318DCB730006E1433 /* GPUImageTextureInput.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8EF73118DCB730006E1433 /* GPUImageTextureInput.m */; };
+		DC8EF74418DCB730006E1433 /* GPUImageTextureOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8EF73318DCB730006E1433 /* GPUImageTextureOutput.m */; };
+		DC8EF74518DCB730006E1433 /* GPUImageTwoPassFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8EF73518DCB730006E1433 /* GPUImageTwoPassFilter.m */; };
+		DC8EF74618DCB730006E1433 /* GPUImageTwoPassTextureSamplingFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8EF73718DCB730006E1433 /* GPUImageTwoPassTextureSamplingFilter.m */; };
+		DC8EF74718DCB730006E1433 /* GPUImageUIElement.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8EF73918DCB730006E1433 /* GPUImageUIElement.m */; };
+		DC8EF74B18DCB78E006E1433 /* MSLiveBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8EF74A18DCB78E006E1433 /* MSLiveBlurView.m */; };
+		DCF7C76A18DCB6950037EBAA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF7C76918DCB6950037EBAA /* Foundation.framework */; };
+		DCF7C76C18DCB6950037EBAA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF7C76B18DCB6950037EBAA /* CoreGraphics.framework */; };
+		DCF7C76E18DCB6950037EBAA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF7C76D18DCB6950037EBAA /* UIKit.framework */; };
+		DCF7C77418DCB6950037EBAA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DCF7C77218DCB6950037EBAA /* InfoPlist.strings */; };
+		DCF7C77618DCB6950037EBAA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DCF7C77518DCB6950037EBAA /* main.m */; };
+		DCF7C77A18DCB6950037EBAA /* MSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DCF7C77918DCB6950037EBAA /* MSAppDelegate.m */; };
+		DCF7C77C18DCB6950037EBAA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCF7C77B18DCB6950037EBAA /* Images.xcassets */; };
+		DCF7C78318DCB6950037EBAA /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF7C78218DCB6950037EBAA /* XCTest.framework */; };
+		DCF7C78418DCB6950037EBAA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF7C76918DCB6950037EBAA /* Foundation.framework */; };
+		DCF7C78518DCB6950037EBAA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF7C76D18DCB6950037EBAA /* UIKit.framework */; };
+		DCF7C78D18DCB6950037EBAA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DCF7C78B18DCB6950037EBAA /* InfoPlist.strings */; };
+		DCF7C78F18DCB6950037EBAA /* LiveBlurDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DCF7C78E18DCB6950037EBAA /* LiveBlurDemoTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DCF7C78618DCB6950037EBAA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DCF7C75E18DCB6950037EBAA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DCF7C76518DCB6950037EBAA;
+			remoteInfo = LiveBlurDemo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		DC8EF72018DCB730006E1433 /* MSMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMainViewController.h; sourceTree = "<group>"; };
+		DC8EF72118DCB730006E1433 /* MSMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMainViewController.m; sourceTree = "<group>"; };
+		DC8EF72418DCB730006E1433 /* GPUImageContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageContext.h; sourceTree = "<group>"; };
+		DC8EF72518DCB730006E1433 /* GPUImageContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageContext.m; sourceTree = "<group>"; };
+		DC8EF72618DCB730006E1433 /* GLProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLProgram.h; sourceTree = "<group>"; };
+		DC8EF72718DCB730006E1433 /* GLProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLProgram.m; sourceTree = "<group>"; };
+		DC8EF72818DCB730006E1433 /* GPUImageBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageBuffer.h; sourceTree = "<group>"; };
+		DC8EF72918DCB730006E1433 /* GPUImageBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageBuffer.m; sourceTree = "<group>"; };
+		DC8EF72A18DCB730006E1433 /* GPUImageFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageFilter.h; sourceTree = "<group>"; };
+		DC8EF72B18DCB730006E1433 /* GPUImageFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageFilter.m; sourceTree = "<group>"; };
+		DC8EF72C18DCB730006E1433 /* GPUImageGaussianBlurFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageGaussianBlurFilter.h; sourceTree = "<group>"; };
+		DC8EF72D18DCB730006E1433 /* GPUImageGaussianBlurFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageGaussianBlurFilter.m; sourceTree = "<group>"; };
+		DC8EF72E18DCB730006E1433 /* GPUImageOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageOutput.h; sourceTree = "<group>"; };
+		DC8EF72F18DCB730006E1433 /* GPUImageOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageOutput.m; sourceTree = "<group>"; };
+		DC8EF73018DCB730006E1433 /* GPUImageTextureInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageTextureInput.h; sourceTree = "<group>"; };
+		DC8EF73118DCB730006E1433 /* GPUImageTextureInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageTextureInput.m; sourceTree = "<group>"; };
+		DC8EF73218DCB730006E1433 /* GPUImageTextureOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageTextureOutput.h; sourceTree = "<group>"; };
+		DC8EF73318DCB730006E1433 /* GPUImageTextureOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageTextureOutput.m; sourceTree = "<group>"; };
+		DC8EF73418DCB730006E1433 /* GPUImageTwoPassFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageTwoPassFilter.h; sourceTree = "<group>"; };
+		DC8EF73518DCB730006E1433 /* GPUImageTwoPassFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageTwoPassFilter.m; sourceTree = "<group>"; };
+		DC8EF73618DCB730006E1433 /* GPUImageTwoPassTextureSamplingFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageTwoPassTextureSamplingFilter.h; sourceTree = "<group>"; };
+		DC8EF73718DCB730006E1433 /* GPUImageTwoPassTextureSamplingFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageTwoPassTextureSamplingFilter.m; sourceTree = "<group>"; };
+		DC8EF73818DCB730006E1433 /* GPUImageUIElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageUIElement.h; sourceTree = "<group>"; };
+		DC8EF73918DCB730006E1433 /* GPUImageUIElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageUIElement.m; sourceTree = "<group>"; };
+		DC8EF74918DCB78D006E1433 /* MSLiveBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLiveBlurView.h; sourceTree = "<group>"; };
+		DC8EF74A18DCB78E006E1433 /* MSLiveBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLiveBlurView.m; sourceTree = "<group>"; };
+		DCF7C76618DCB6950037EBAA /* LiveBlurDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveBlurDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCF7C76918DCB6950037EBAA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DCF7C76B18DCB6950037EBAA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DCF7C76D18DCB6950037EBAA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		DCF7C77118DCB6950037EBAA /* LiveBlurDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LiveBlurDemo-Info.plist"; sourceTree = "<group>"; };
+		DCF7C77318DCB6950037EBAA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DCF7C77518DCB6950037EBAA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DCF7C77718DCB6950037EBAA /* LiveBlurDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LiveBlurDemo-Prefix.pch"; sourceTree = "<group>"; };
+		DCF7C77818DCB6950037EBAA /* MSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAppDelegate.h; sourceTree = "<group>"; };
+		DCF7C77918DCB6950037EBAA /* MSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAppDelegate.m; sourceTree = "<group>"; };
+		DCF7C77B18DCB6950037EBAA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		DCF7C78118DCB6950037EBAA /* LiveBlurDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LiveBlurDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCF7C78218DCB6950037EBAA /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		DCF7C78A18DCB6950037EBAA /* LiveBlurDemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LiveBlurDemoTests-Info.plist"; sourceTree = "<group>"; };
+		DCF7C78C18DCB6950037EBAA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DCF7C78E18DCB6950037EBAA /* LiveBlurDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveBlurDemoTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DCF7C76318DCB6950037EBAA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DCF7C76C18DCB6950037EBAA /* CoreGraphics.framework in Frameworks */,
+				DCF7C76E18DCB6950037EBAA /* UIKit.framework in Frameworks */,
+				DCF7C76A18DCB6950037EBAA /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DCF7C77E18DCB6950037EBAA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DCF7C78318DCB6950037EBAA /* XCTest.framework in Frameworks */,
+				DCF7C78518DCB6950037EBAA /* UIKit.framework in Frameworks */,
+				DCF7C78418DCB6950037EBAA /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DC8EF72218DCB730006E1433 /* GPUImage */ = {
+			isa = PBXGroup;
+			children = (
+				DC8EF72318DCB730006E1433 /* iOS */,
+				DC8EF72618DCB730006E1433 /* GLProgram.h */,
+				DC8EF72718DCB730006E1433 /* GLProgram.m */,
+				DC8EF72818DCB730006E1433 /* GPUImageBuffer.h */,
+				DC8EF72918DCB730006E1433 /* GPUImageBuffer.m */,
+				DC8EF72A18DCB730006E1433 /* GPUImageFilter.h */,
+				DC8EF72B18DCB730006E1433 /* GPUImageFilter.m */,
+				DC8EF72C18DCB730006E1433 /* GPUImageGaussianBlurFilter.h */,
+				DC8EF72D18DCB730006E1433 /* GPUImageGaussianBlurFilter.m */,
+				DC8EF72E18DCB730006E1433 /* GPUImageOutput.h */,
+				DC8EF72F18DCB730006E1433 /* GPUImageOutput.m */,
+				DC8EF73018DCB730006E1433 /* GPUImageTextureInput.h */,
+				DC8EF73118DCB730006E1433 /* GPUImageTextureInput.m */,
+				DC8EF73218DCB730006E1433 /* GPUImageTextureOutput.h */,
+				DC8EF73318DCB730006E1433 /* GPUImageTextureOutput.m */,
+				DC8EF73418DCB730006E1433 /* GPUImageTwoPassFilter.h */,
+				DC8EF73518DCB730006E1433 /* GPUImageTwoPassFilter.m */,
+				DC8EF73618DCB730006E1433 /* GPUImageTwoPassTextureSamplingFilter.h */,
+				DC8EF73718DCB730006E1433 /* GPUImageTwoPassTextureSamplingFilter.m */,
+				DC8EF73818DCB730006E1433 /* GPUImageUIElement.h */,
+				DC8EF73918DCB730006E1433 /* GPUImageUIElement.m */,
+			);
+			path = GPUImage;
+			sourceTree = "<group>";
+		};
+		DC8EF72318DCB730006E1433 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				DC8EF72418DCB730006E1433 /* GPUImageContext.h */,
+				DC8EF72518DCB730006E1433 /* GPUImageContext.m */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		DCF7C75D18DCB6950037EBAA = {
+			isa = PBXGroup;
+			children = (
+				DCF7C76F18DCB6950037EBAA /* LiveBlurDemo */,
+				DCF7C78818DCB6950037EBAA /* LiveBlurDemoTests */,
+				DCF7C76818DCB6950037EBAA /* Frameworks */,
+				DCF7C76718DCB6950037EBAA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DCF7C76718DCB6950037EBAA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DCF7C76618DCB6950037EBAA /* LiveBlurDemo.app */,
+				DCF7C78118DCB6950037EBAA /* LiveBlurDemoTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DCF7C76818DCB6950037EBAA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DCF7C76918DCB6950037EBAA /* Foundation.framework */,
+				DCF7C76B18DCB6950037EBAA /* CoreGraphics.framework */,
+				DCF7C76D18DCB6950037EBAA /* UIKit.framework */,
+				DCF7C78218DCB6950037EBAA /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DCF7C76F18DCB6950037EBAA /* LiveBlurDemo */ = {
+			isa = PBXGroup;
+			children = (
+				DC8EF72218DCB730006E1433 /* GPUImage */,
+				DC8EF72018DCB730006E1433 /* MSMainViewController.h */,
+				DC8EF72118DCB730006E1433 /* MSMainViewController.m */,
+				DCF7C77818DCB6950037EBAA /* MSAppDelegate.h */,
+				DCF7C77918DCB6950037EBAA /* MSAppDelegate.m */,
+				DC8EF74918DCB78D006E1433 /* MSLiveBlurView.h */,
+				DC8EF74A18DCB78E006E1433 /* MSLiveBlurView.m */,
+				DCF7C77B18DCB6950037EBAA /* Images.xcassets */,
+				DCF7C77018DCB6950037EBAA /* Supporting Files */,
+			);
+			path = LiveBlurDemo;
+			sourceTree = "<group>";
+		};
+		DCF7C77018DCB6950037EBAA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DCF7C77118DCB6950037EBAA /* LiveBlurDemo-Info.plist */,
+				DCF7C77218DCB6950037EBAA /* InfoPlist.strings */,
+				DCF7C77518DCB6950037EBAA /* main.m */,
+				DCF7C77718DCB6950037EBAA /* LiveBlurDemo-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DCF7C78818DCB6950037EBAA /* LiveBlurDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				DCF7C78E18DCB6950037EBAA /* LiveBlurDemoTests.m */,
+				DCF7C78918DCB6950037EBAA /* Supporting Files */,
+			);
+			path = LiveBlurDemoTests;
+			sourceTree = "<group>";
+		};
+		DCF7C78918DCB6950037EBAA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DCF7C78A18DCB6950037EBAA /* LiveBlurDemoTests-Info.plist */,
+				DCF7C78B18DCB6950037EBAA /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DCF7C76518DCB6950037EBAA /* LiveBlurDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DCF7C79218DCB6950037EBAA /* Build configuration list for PBXNativeTarget "LiveBlurDemo" */;
+			buildPhases = (
+				DCF7C76218DCB6950037EBAA /* Sources */,
+				DCF7C76318DCB6950037EBAA /* Frameworks */,
+				DCF7C76418DCB6950037EBAA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LiveBlurDemo;
+			productName = LiveBlurDemo;
+			productReference = DCF7C76618DCB6950037EBAA /* LiveBlurDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DCF7C78018DCB6950037EBAA /* LiveBlurDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DCF7C79518DCB6950037EBAA /* Build configuration list for PBXNativeTarget "LiveBlurDemoTests" */;
+			buildPhases = (
+				DCF7C77D18DCB6950037EBAA /* Sources */,
+				DCF7C77E18DCB6950037EBAA /* Frameworks */,
+				DCF7C77F18DCB6950037EBAA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DCF7C78718DCB6950037EBAA /* PBXTargetDependency */,
+			);
+			name = LiveBlurDemoTests;
+			productName = LiveBlurDemoTests;
+			productReference = DCF7C78118DCB6950037EBAA /* LiveBlurDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DCF7C75E18DCB6950037EBAA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = MS;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "Michael Spensieri";
+				TargetAttributes = {
+					DCF7C78018DCB6950037EBAA = {
+						TestTargetID = DCF7C76518DCB6950037EBAA;
+					};
+				};
+			};
+			buildConfigurationList = DCF7C76118DCB6950037EBAA /* Build configuration list for PBXProject "LiveBlurDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DCF7C75D18DCB6950037EBAA;
+			productRefGroup = DCF7C76718DCB6950037EBAA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DCF7C76518DCB6950037EBAA /* LiveBlurDemo */,
+				DCF7C78018DCB6950037EBAA /* LiveBlurDemoTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DCF7C76418DCB6950037EBAA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DCF7C77418DCB6950037EBAA /* InfoPlist.strings in Resources */,
+				DCF7C77C18DCB6950037EBAA /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DCF7C77F18DCB6950037EBAA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DCF7C78D18DCB6950037EBAA /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DCF7C76218DCB6950037EBAA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DC8EF74B18DCB78E006E1433 /* MSLiveBlurView.m in Sources */,
+				DC8EF73D18DCB730006E1433 /* GPUImageContext.m in Sources */,
+				DC8EF74718DCB730006E1433 /* GPUImageUIElement.m in Sources */,
+				DC8EF74318DCB730006E1433 /* GPUImageTextureInput.m in Sources */,
+				DC8EF74018DCB730006E1433 /* GPUImageFilter.m in Sources */,
+				DC8EF74618DCB730006E1433 /* GPUImageTwoPassTextureSamplingFilter.m in Sources */,
+				DCF7C77A18DCB6950037EBAA /* MSAppDelegate.m in Sources */,
+				DC8EF74518DCB730006E1433 /* GPUImageTwoPassFilter.m in Sources */,
+				DC8EF74418DCB730006E1433 /* GPUImageTextureOutput.m in Sources */,
+				DC8EF74218DCB730006E1433 /* GPUImageOutput.m in Sources */,
+				DC8EF73F18DCB730006E1433 /* GPUImageBuffer.m in Sources */,
+				DC8EF74118DCB730006E1433 /* GPUImageGaussianBlurFilter.m in Sources */,
+				DCF7C77618DCB6950037EBAA /* main.m in Sources */,
+				DC8EF73E18DCB730006E1433 /* GLProgram.m in Sources */,
+				DC8EF73C18DCB730006E1433 /* MSMainViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DCF7C77D18DCB6950037EBAA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DCF7C78F18DCB6950037EBAA /* LiveBlurDemoTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DCF7C78718DCB6950037EBAA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DCF7C76518DCB6950037EBAA /* LiveBlurDemo */;
+			targetProxy = DCF7C78618DCB6950037EBAA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		DCF7C77218DCB6950037EBAA /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DCF7C77318DCB6950037EBAA /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		DCF7C78B18DCB6950037EBAA /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DCF7C78C18DCB6950037EBAA /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DCF7C79018DCB6950037EBAA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DCF7C79118DCB6950037EBAA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DCF7C79318DCB6950037EBAA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LiveBlurDemo/LiveBlurDemo-Prefix.pch";
+				INFOPLIST_FILE = "LiveBlurDemo/LiveBlurDemo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		DCF7C79418DCB6950037EBAA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LiveBlurDemo/LiveBlurDemo-Prefix.pch";
+				INFOPLIST_FILE = "LiveBlurDemo/LiveBlurDemo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		DCF7C79618DCB6950037EBAA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/LiveBlurDemo.app/LiveBlurDemo";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LiveBlurDemo/LiveBlurDemo-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "LiveBlurDemoTests/LiveBlurDemoTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		DCF7C79718DCB6950037EBAA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/LiveBlurDemo.app/LiveBlurDemo";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LiveBlurDemo/LiveBlurDemo-Prefix.pch";
+				INFOPLIST_FILE = "LiveBlurDemoTests/LiveBlurDemoTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DCF7C76118DCB6950037EBAA /* Build configuration list for PBXProject "LiveBlurDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DCF7C79018DCB6950037EBAA /* Debug */,
+				DCF7C79118DCB6950037EBAA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DCF7C79218DCB6950037EBAA /* Build configuration list for PBXNativeTarget "LiveBlurDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DCF7C79318DCB6950037EBAA /* Debug */,
+				DCF7C79418DCB6950037EBAA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DCF7C79518DCB6950037EBAA /* Build configuration list for PBXNativeTarget "LiveBlurDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DCF7C79618DCB6950037EBAA /* Debug */,
+				DCF7C79718DCB6950037EBAA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DCF7C75E18DCB6950037EBAA /* Project object */;
+}
