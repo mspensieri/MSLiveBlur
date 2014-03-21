@@ -41,7 +41,7 @@ static const CGFloat kTimerInterval = 0.3;
         [self.textLabels addObject:label];
     }
     
-    self.b = [[MSLiveBlurView alloc] initWithFrame:self.view.bounds blurInterval:kLiveBlurIntervalStatic radius:5];
+    self.b = [[MSLiveBlurView alloc] initWithFrame:self.view.bounds];
     
    [NSTimer scheduledTimerWithTimeInterval:kTimerInterval target:self selector:@selector(changeColor) userInfo:nil repeats:YES];
     
