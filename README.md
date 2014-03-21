@@ -8,12 +8,12 @@ I use a condensed version of [GPUImage](https://github.com/BradLarson/GPUImage) 
 
 #### For live blur:
 
-    \#import "MSLiveBlur.h"
+    #import "MSLiveBlur.h"
     MSLiveBlurView* blurView = [[MSLiveBlurView alloc] initWithFrame:self.view.bounds];
 
 #### For static blur:
 
-    \#import "MSLiveBlur.h"
+    #import "MSLiveBlur.h"
     MSLiveBlurView* blurView = [[MSLiveBlurView alloc] initWithFrame:self.view.bounds blurInterval:kLiveBlurIntervalStatic radius:5];
 
 then, to update manually:
