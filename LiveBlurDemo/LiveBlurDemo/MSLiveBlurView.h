@@ -18,5 +18,7 @@ extern const int kLiveBlurIntervalStatic;
 -(void)forceUpdateBlur;
 
 @property CGRect frame;
+@property UIColor* tintColor;
+@property double blurRadius;
 
 @end

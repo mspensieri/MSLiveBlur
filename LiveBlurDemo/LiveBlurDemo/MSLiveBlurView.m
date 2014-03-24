@@ -20,6 +20,7 @@ static const int kDefaultBlurInterval = 0.5;
 @interface MSLiveBlurView()
 
 @property UIImageView* blurredImageView;
+@property UIView* tintView;
 
 @property GPUImageUIElement* stillImageSource;
 @property GPUImageGaussianBlurFilter* filter;
@@ -30,6 +31,7 @@ static const int kDefaultBlurInterval = 0.5;
 @implementation MSLiveBlurView
 
 @synthesize frame = _frame;
+@synthesize tintColor = _tintColor;
 
 +(void)load
 {
@@ -66,19 +68,28 @@ static const int kDefaultBlurInterval = 0.5;
         self.blurredImageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
         [blurWindow addSubview:self.blurredImageView];
         
-        self.stillImageSource = [[GPUImageUIElement alloc] initWithView:[UIApplication sharedApplication].delegate.window];
-        self.filter = [[GPUImageGaussianBlurFilter alloc] init];
-        self.filter.blurRadiusInPixels = radius;
+        self.tintView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        self.tintView.alpha = 0.1;
+        self.tintView.backgroundColor = [UIColor lightGrayColor];
+        [blurWindow addSubview:self.tintView];
         
-        [self.stillImageSource addTarget:self.filter];
-        
+        [self initGPUImageElementsWithBlurRadius:radius];
         [self setFrame:frame];
         
         if(interval != kLiveBlurIntervalStatic){
-            self.blurTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(forceUpdateBlur) userInfo:nil repeats:YES];
+            self.blurTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(updateBlur) userInfo:nil repeats:YES];
         }
     }
     return self;
+}
+
+-(void)initGPUImageElementsWithBlurRadius:(double)radius
+{
+    self.stillImageSource = [[GPUImageUIElement alloc] initWithView:[UIApplication sharedApplication].delegate.window];
+    self.filter = [[GPUImageGaussianBlurFilter alloc] init];
+    self.filter.blurRadiusInPixels = radius;
+    
+    [self.stillImageSource addTarget:self.filter];
 }
 
 -(void)setFrame:(CGRect)frame
@@ -91,7 +102,7 @@ static const int kDefaultBlurInterval = 0.5;
     maskLayer.path = path;
     CGPathRelease(path);
     
-    self.blurredImageView.layer.mask = maskLayer;
+    blurWindow.layer.mask = maskLayer;
 }
 
 -(CGRect)frame
@@ -99,7 +110,36 @@ static const int kDefaultBlurInterval = 0.5;
     return _frame;
 }
 
+-(void)setTintColor:(UIColor *)tintColor
+{
+    _tintColor = tintColor;
+    
+    self.tintView.backgroundColor = tintColor;
+}
+
+-(UIColor*)tintColor
+{
+    return _tintColor;
+}
+
+-(void)setBlurRadius:(double)blurRadius
+{
+    self.filter.blurRadiusInPixels = blurRadius;
+}
+
+-(double)blurRadius
+{
+    return self.filter.blurRadiusInPixels;
+}
+
 -(void)forceUpdateBlur
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [self updateBlur];
+    });
+}
+
+-(void)updateBlur
 {
     @synchronized(self){
         [self.stillImageSource update];

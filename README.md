@@ -23,10 +23,10 @@ then, to update manually:
 # Todo:
 * Figure out how to only blur views beneath so as not to require a new window
 * Support multiple areas at once
-* Tint color for the blur
 * Different shapes (ex: rounded corners)
 
 # Done
 * Live blur with variable interval
 * Live blur appears on top of the application and blurs underneath
 * Specify the size of the blurred area so it does not blur the entire screen (i.e. actually use the given frame)
+* Tint color for the blur
