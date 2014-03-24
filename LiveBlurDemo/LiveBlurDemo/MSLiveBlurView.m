@@ -26,12 +26,11 @@ static const int kDefaultBlurInterval = 0.5;
 @property GPUImageGaussianBlurFilter* filter;
 @property NSTimer* blurTimer;
 
+@property NSMutableArray* activeBlurAreas;
+
 @end
 
 @implementation MSLiveBlurView
-
-@synthesize frame = _frame;
-@synthesize tintColor = _tintColor;
 
 +(void)load
 {
@@ -54,82 +53,93 @@ static const int kDefaultBlurInterval = 0.5;
     }
 }
 
--(id)initWithFrame:(CGRect)frame
++(instancetype)sharedInstance
 {
-    return [self initWithFrame:frame blurInterval:kDefaultBlurInterval radius:kDefaultBlurRadius];
+    [self ensureWindowExists];
+    
+    static MSLiveBlurView* sharedInstance;
+    if(!sharedInstance){
+        sharedInstance = [[MSLiveBlurView alloc] init];
+    }
+    return sharedInstance;
 }
 
-- (id)initWithFrame:(CGRect)frame blurInterval:(double)interval radius:(int)radius
+-(CGRect)blurRect:(CGRect)rect
+{
+    [self.activeBlurAreas addObject:[NSValue valueWithCGRect:rect]];
+    
+    [self updateMaskedAreas];
+    
+    if(self.blurTimer == nil && self.blurInterval != kLiveBlurIntervalStatic){
+        self.blurTimer = [NSTimer scheduledTimerWithTimeInterval:self.blurInterval target:self selector:@selector(updateBlur) userInfo:nil repeats:YES];
+    }
+    
+    return rect;
+}
+
+-(void)stopBlurringRect:(CGRect)rect
+{
+    [self.activeBlurAreas removeObject:[NSValue valueWithCGRect:rect]];
+    
+    if(self.activeBlurAreas.count == 0){
+        [self.blurTimer invalidate];
+        self.blurTimer = nil;
+    }
+    
+    [self updateMaskedAreas];
+}
+
+- (instancetype)init
 {
     self = [super init];
     if (self) {
-        [self.class ensureWindowExists];
+        _activeBlurAreas = [NSMutableArray new];
+        _blurInterval = kDefaultBlurInterval;
         
-        self.blurredImageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        [blurWindow addSubview:self.blurredImageView];
+        _blurredImageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        [blurWindow addSubview:_blurredImageView];
         
-        self.tintView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        self.tintView.alpha = 0.1;
-        self.tintView.backgroundColor = [UIColor lightGrayColor];
-        [blurWindow addSubview:self.tintView];
-        
-        [self initGPUImageElementsWithBlurRadius:radius];
-        [self setFrame:frame];
-        
-        if(interval != kLiveBlurIntervalStatic){
-            self.blurTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(updateBlur) userInfo:nil repeats:YES];
-        }
+        [self initGPUImageElements];
+        [self initTintView];
     }
     return self;
 }
 
--(void)initGPUImageElementsWithBlurRadius:(double)radius
+-(void)initGPUImageElements
 {
-    self.stillImageSource = [[GPUImageUIElement alloc] initWithView:[UIApplication sharedApplication].delegate.window];
-    self.filter = [[GPUImageGaussianBlurFilter alloc] init];
-    self.filter.blurRadiusInPixels = radius;
+    _stillImageSource = [[GPUImageUIElement alloc] initWithView:[UIApplication sharedApplication].delegate.window];
+    _filter = [[GPUImageGaussianBlurFilter alloc] init];
+    _filter.blurRadiusInPixels = kDefaultBlurRadius;
     
-    [self.stillImageSource addTarget:self.filter];
+    [_stillImageSource addTarget:_filter];
 }
 
--(void)setFrame:(CGRect)frame
+-(void)initTintView
 {
-    _frame = frame;
+    _tintView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    _tintView.alpha = 0.1;
+    _tintView.backgroundColor = [UIColor lightGrayColor];
+    [blurWindow addSubview:_tintView];
+}
+
+-(void)updateMaskedAreas
+{
+    CGMutablePathRef path = CGPathCreateMutable();
+    
+    CGPathMoveToPoint(path, NULL, 0, 0);
+    
+    for(int i = 0; i < self.activeBlurAreas.count; i++){
+        CGRect frame = [self.activeBlurAreas[i] CGRectValue];
+        CGPathAddRect(path, NULL, frame);
+    }
+    
+    CGPathCloseSubpath(path);
     
     CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-    CGRect maskRect = _frame;
-    CGPathRef path = CGPathCreateWithRect(maskRect, NULL);
     maskLayer.path = path;
     CGPathRelease(path);
     
     blurWindow.layer.mask = maskLayer;
-}
-
--(CGRect)frame
-{
-    return _frame;
-}
-
--(void)setTintColor:(UIColor *)tintColor
-{
-    _tintColor = tintColor;
-    
-    self.tintView.backgroundColor = tintColor;
-}
-
--(UIColor*)tintColor
-{
-    return _tintColor;
-}
-
--(void)setBlurRadius:(double)blurRadius
-{
-    self.filter.blurRadiusInPixels = blurRadius;
-}
-
--(double)blurRadius
-{
-    return self.filter.blurRadiusInPixels;
 }
 
 -(void)forceUpdateBlur
@@ -156,6 +166,26 @@ static const int kDefaultBlurInterval = 0.5;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.blurredImageView setImage:processedImage];
     });
+}
+
+-(void)setBlurRadius:(double)blurRadius
+{
+    self.filter.blurRadiusInPixels = blurRadius;
+}
+
+-(double)blurRadius
+{
+    return self.filter.blurRadiusInPixels;
+}
+
+-(void)setTintColor:(UIColor *)tintColor
+{
+    self.tintView.backgroundColor = tintColor;
+}
+
+-(UIColor*)tintColor
+{
+    return self.tintView.backgroundColor;
 }
 
 -(void)dealloc

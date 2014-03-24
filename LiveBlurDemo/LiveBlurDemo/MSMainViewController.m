@@ -16,7 +16,7 @@ static const CGFloat kSliderWidth = 200;
 @interface MSMainViewController()
 
 @property NSMutableArray* textLabels;
-@property MSLiveBlurView* blurView;
+@property CGRect dynamicRect;
 @property UISlider* slider;
 
 @end
@@ -31,7 +31,10 @@ static const CGFloat kSliderWidth = 200;
     [self initTextLabels];
     [self initSlider];
     
-    self.blurView = [[MSLiveBlurView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    self.dynamicRect = [[MSLiveBlurView sharedInstance] blurRect:CGRectMake(0, 0, 100, 100)];
+    
+    CGRect staticRect = CGRectMake(220, 340, 100, 100);
+    [[MSLiveBlurView sharedInstance] blurRect:staticRect];
     
    [NSTimer scheduledTimerWithTimeInterval:kTimerInterval target:self selector:@selector(changeColor) userInfo:nil repeats:YES];
     
@@ -45,12 +48,12 @@ static const CGFloat kSliderWidth = 200;
 {
     self.textLabels = [NSMutableArray new];
     
-    NSArray* labelTitles = [@"Hi I'm Mike. Drag the blurred area to see something cool" componentsSeparatedByString:@" "];
+    NSArray* labelTitles = [@"Drag to move the blurred area. Slide to change blur radius. Yay!" componentsSeparatedByString:@" "];
     
     for(int i = 0; i < labelTitles.count; i++){
-        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(20 + 90*(i % 3), 40 + 110*(i / 3), 500, 100)];
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(20 + 110*(i % 3), 40 + 110*(i / 3), 500, 100)];
         label.text = labelTitles[i];
-        label.font = [UIFont systemFontOfSize:15];
+        label.font = [UIFont systemFontOfSize:20];
         [label sizeToFit];
         
         [self.view addSubview:label];
@@ -69,14 +72,15 @@ static const CGFloat kSliderWidth = 200;
 }
 
 -(void)sliderValueChanged:(UISlider *)sender {
-    self.blurView.blurRadius = 10 * sender.value;
+    [MSLiveBlurView sharedInstance].blurRadius = 10 * sender.value;
 }
 
 -(void)onPan:(UIPanGestureRecognizer*)sender
 {
     if(sender.state == UIGestureRecognizerStateChanged){
         CGPoint translation = [sender translationInView:sender.view];
-        self.blurView.frame = CGRectOffset(self.blurView.frame, translation.x, translation.y);
+        [[MSLiveBlurView sharedInstance] stopBlurringRect:self.dynamicRect];
+        self.dynamicRect = [[MSLiveBlurView sharedInstance] blurRect:CGRectOffset(self.dynamicRect, translation.x, translation.y)];
         [sender setTranslation:CGPointZero inView:sender.view];
     }
 }

@@ -12,13 +12,15 @@ extern const int kLiveBlurIntervalStatic;
 
 @interface MSLiveBlurView : NSObject
 
-- (id)initWithFrame:(CGRect)frame;
-- (id)initWithFrame:(CGRect)frame blurInterval:(double)interval radius:(int)radius;
++(instancetype)sharedInstance;
+
+-(CGRect)blurRect:(CGRect)rect;
+-(void)stopBlurringRect:(CGRect)rect;
 
 -(void)forceUpdateBlur;
 
-@property CGRect frame;
-@property UIColor* tintColor;
 @property double blurRadius;
+@property double blurInterval;
+@property UIColor* tintColor;
 
 @end
