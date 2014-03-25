@@ -6,6 +6,8 @@ Subviews will not be blurred but will instead appear on top of the blurred area.
 
 I use a condensed version of [GPUImage](https://github.com/BradLarson/GPUImage) to do the blurring.
 
+*Note:* Performance on the simulator is abysmal for blur radius >5, try it on an actual device - it's much faster!
+
 # Usage
 
 #### For live blur:
