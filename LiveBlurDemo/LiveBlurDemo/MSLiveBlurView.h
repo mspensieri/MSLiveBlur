@@ -17,6 +17,8 @@ extern const int kLiveBlurIntervalStatic;
 -(CGRect)blurRect:(CGRect)rect;
 -(void)stopBlurringRect:(CGRect)rect;
 
+-(void)addSubview:(UIView*)view;
+
 -(void)forceUpdateBlur;
 
 @property double blurRadius;

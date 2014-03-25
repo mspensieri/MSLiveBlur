@@ -1,7 +1,9 @@
 MSLiveBlur
 ==========
 
-The MSLiveBlurView dynamically blurs the content on the screen and updates at the given interval.
+The MSLiveBlurView dynamically blurs the content on the screen and updates at the given interval. 
+Subviews will not be blurred but will instead appear on top of the blurred area.
+
 I use a condensed version of [GPUImage](https://github.com/BradLarson/GPUImage) to do the blurring.
 
 # Usage
@@ -9,13 +11,17 @@ I use a condensed version of [GPUImage](https://github.com/BradLarson/GPUImage) 
 #### For live blur:
 
     #import "MSLiveBlur.h"
-    [[MSLiveBlurView sharedInstance] blurRect:CGRectMake(0, 0, 100, 100)];
+    UIView* someView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    [[MSLiveBlurView sharedInstance] blurRect:someView.frame];
+    [[MSLiveBlurView sharedInstance] addSubview:view];
 
 #### For static blur:
 
     #import "MSLiveBlur.h"
+    UIView* someView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
     [[MSLiveBlurView sharedInstance] setBlurInterval:kLiveBlurIntervalStatic];
-    [[MSLiveBlurView sharedInstance] blurRect:CGRectMake(0, 0, 100, 100)];
+    [[MSLiveBlurView sharedInstance] blurRect:someView.frame];
+    [[MSLiveBlurView sharedInstance] addSubview:view];
 
 then, to update manually:
 
@@ -31,3 +37,4 @@ then, to update manually:
 * Specify the size of the blurred area so it does not blur the entire screen (i.e. actually use the given frame)
 * Tint color
 * Support multiple areas at once
+* Allow subviews on top of the blurred area

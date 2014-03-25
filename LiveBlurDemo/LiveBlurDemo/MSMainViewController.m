@@ -30,6 +30,7 @@ static const CGFloat kSliderWidth = 200;
 
     [self initTextLabels];
     [self initSlider];
+    [self initHiddenTextLabel];
     
     self.dynamicRect = [[MSLiveBlurView sharedInstance] blurRect:CGRectMake(0, 0, 100, 100)];
     
@@ -69,6 +70,18 @@ static const CGFloat kSliderWidth = 200;
     self.slider.value = 0.5;
     [self.slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:self.slider];
+}
+
+-(void)initHiddenTextLabel
+{
+    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 30, 200, 30)];
+    label.text = @"You Found it!";
+    label.font = [UIFont systemFontOfSize:20];
+    [label sizeToFit];
+    
+    [[MSLiveBlurView sharedInstance] addSubview:label];
+    
+    [self.textLabels addObject:label];
 }
 
 -(void)sliderValueChanged:(UISlider *)sender {

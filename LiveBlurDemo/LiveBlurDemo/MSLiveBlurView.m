@@ -64,31 +64,6 @@ static const int kDefaultBlurInterval = 0.5;
     return sharedInstance;
 }
 
--(CGRect)blurRect:(CGRect)rect
-{
-    [self.activeBlurAreas addObject:[NSValue valueWithCGRect:rect]];
-    
-    [self updateMaskedAreas];
-    
-    if(self.blurTimer == nil && self.blurInterval != kLiveBlurIntervalStatic){
-        self.blurTimer = [NSTimer scheduledTimerWithTimeInterval:self.blurInterval target:self selector:@selector(updateBlur) userInfo:nil repeats:YES];
-    }
-    
-    return rect;
-}
-
--(void)stopBlurringRect:(CGRect)rect
-{
-    [self.activeBlurAreas removeObject:[NSValue valueWithCGRect:rect]];
-    
-    if(self.activeBlurAreas.count == 0){
-        [self.blurTimer invalidate];
-        self.blurTimer = nil;
-    }
-    
-    [self updateMaskedAreas];
-}
-
 - (instancetype)init
 {
     self = [super init];
@@ -120,6 +95,36 @@ static const int kDefaultBlurInterval = 0.5;
     _tintView.alpha = 0.1;
     _tintView.backgroundColor = [UIColor lightGrayColor];
     [blurWindow addSubview:_tintView];
+}
+
+-(CGRect)blurRect:(CGRect)rect
+{
+    [self.activeBlurAreas addObject:[NSValue valueWithCGRect:rect]];
+    
+    [self updateMaskedAreas];
+    
+    if(self.blurTimer == nil && self.blurInterval != kLiveBlurIntervalStatic){
+        self.blurTimer = [NSTimer scheduledTimerWithTimeInterval:self.blurInterval target:self selector:@selector(updateBlur) userInfo:nil repeats:YES];
+    }
+    
+    return rect;
+}
+
+-(void)stopBlurringRect:(CGRect)rect
+{
+    [self.activeBlurAreas removeObject:[NSValue valueWithCGRect:rect]];
+    
+    if(self.activeBlurAreas.count == 0){
+        [self.blurTimer invalidate];
+        self.blurTimer = nil;
+    }
+    
+    [self updateMaskedAreas];
+}
+
+-(void)addSubview:(UIView *)view
+{
+    [blurWindow addSubview:view];
 }
 
 -(void)updateMaskedAreas
