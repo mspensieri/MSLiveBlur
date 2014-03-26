@@ -29,11 +29,12 @@ I use a condensed version of [GPUImage](https://github.com/BradLarson/GPUImage) 
 
 then, to update manually:
 
-    [blurView forceUpdateBlur];
+    [[MSLiveBlurView sharedInstance] forceUpdateBlur];
 
 # Todo:
 * Figure out how to only blur views beneath so as not to require a new window
 * Different shapes (ex: rounded corners)
+* Landscape
 
 # Done
 * Live blur with variable interval
@@ -42,3 +43,6 @@ then, to update manually:
 * Tint color
 * Support multiple areas at once
 * Allow subviews on top of the blurred area
+
+
+Send me a message if you use this lib and you want your app listed here!
