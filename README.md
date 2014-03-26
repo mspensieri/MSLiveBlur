@@ -1,7 +1,7 @@
 MSLiveBlur
 ==========
 
-![Screenshot](https://raw.github.com/michaels/MSLiveBlur/master/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/mspensieri/MSLiveBlur/master/screenshot.png)
 
 The MSLiveBlurView dynamically blurs the content on the screen and updates at the given interval. 
 Subviews will not be blurred but will instead appear on top of the blurred area.
