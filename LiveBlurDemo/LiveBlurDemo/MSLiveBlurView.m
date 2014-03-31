@@ -159,7 +159,7 @@ static const int kDefaultBlurInterval = 0.5;
     @synchronized(self){
         [self.stillImageSource update];
     }
-    UIImage *processedImage = [self.filter imageFromCurrentlyProcessedOutput];
+    UIImage *processedImage = [self.filter imageFromCurrentlyProcessedOutputWithOrientation:UIImageOrientationUp];
     
     CABasicAnimation *crossFade = [CABasicAnimation animationWithKeyPath:@"contents"];
     crossFade.duration = 0.1;
