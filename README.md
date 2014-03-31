@@ -39,6 +39,7 @@ UIWindow does not change bounds or orientation when rotating to landscape mode, 
 # Todo:
 * Figure out how to only blur views beneath so as not to require a new window
 * Different shapes (ex: rounded corners)
+* Rotate subviews to landscape
 
 # Done
 * Live blur with variable interval
@@ -47,7 +48,7 @@ UIWindow does not change bounds or orientation when rotating to landscape mode, 
 * Tint color
 * Support multiple areas at once
 * Allow subviews on top of the blurred area
-* Landscape
+* Landscape blur
 
 
 Send me a message if you use this lib and you want your app listed here!
