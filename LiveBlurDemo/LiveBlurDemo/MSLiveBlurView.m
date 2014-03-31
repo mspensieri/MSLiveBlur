@@ -76,6 +76,10 @@ static const int kDefaultBlurInterval = 0.5;
         
         [self initGPUImageElements];
         [self initTintView];
+        
+        [self updateSubviewOrientations:[UIApplication sharedApplication].statusBarOrientation];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChange:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
     }
     return self;
 }
@@ -95,6 +99,11 @@ static const int kDefaultBlurInterval = 0.5;
     _tintView.alpha = 0.1;
     _tintView.backgroundColor = [UIColor lightGrayColor];
     [blurWindow addSubview:_tintView];
+}
+
+-(void)orientationChange:(NSNotification*)notification
+{
+    [self updateSubviewOrientations:[[notification.userInfo objectForKey:UIApplicationStatusBarOrientationUserInfoKey] intValue]];
 }
 
 -(CGRect)blurRect:(CGRect)rect
@@ -125,6 +134,8 @@ static const int kDefaultBlurInterval = 0.5;
 -(void)addSubview:(UIView *)view
 {
     [blurWindow addSubview:view];
+    
+    [self updateSubviewOrientations:[UIApplication sharedApplication].statusBarOrientation];
 }
 
 -(void)updateMaskedAreas
@@ -147,6 +158,32 @@ static const int kDefaultBlurInterval = 0.5;
     blurWindow.layer.mask = maskLayer;
 }
 
+-(void)updateSubviewOrientations:(UIInterfaceOrientation)orientation
+{
+    CGAffineTransform transform;
+    switch (orientation) {
+        case UIInterfaceOrientationLandscapeLeft:
+            transform = CGAffineTransformMakeRotation(3*M_PI_2);
+            break;
+        case UIInterfaceOrientationLandscapeRight:
+            transform = CGAffineTransformMakeRotation(M_PI_2);
+            break;
+        case UIInterfaceOrientationPortrait:
+            transform = CGAffineTransformMakeRotation(0);
+            break;
+        case UIInterfaceOrientationPortraitUpsideDown:
+            transform = CGAffineTransformMakeRotation(M_PI);
+            break;
+    }
+    
+    for(UIView* view in blurWindow.subviews){
+        view.transform = transform;
+    }
+    
+    self.tintView.frame = [UIScreen mainScreen].bounds;
+    self.blurredImageView.frame = [UIScreen mainScreen].bounds;
+}
+
 -(void)forceUpdateBlur
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -159,7 +196,7 @@ static const int kDefaultBlurInterval = 0.5;
     @synchronized(self){
         [self.stillImageSource update];
     }
-    UIImage *processedImage = [self.filter imageFromCurrentlyProcessedOutputWithOrientation:UIImageOrientationUp];
+    UIImage *processedImage = [self.filter imageFromCurrentlyProcessedOutput];
     
     CABasicAnimation *crossFade = [CABasicAnimation animationWithKeyPath:@"contents"];
     crossFade.duration = 0.1;
@@ -197,6 +234,7 @@ static const int kDefaultBlurInterval = 0.5;
 {
     [self.blurTimer invalidate];
     [self.blurredImageView removeFromSuperview];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
