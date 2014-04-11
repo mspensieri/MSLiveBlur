@@ -28,6 +28,9 @@ static const int kDefaultBlurInterval = 0.5;
 
 @property NSMutableArray* activeBlurAreas;
 
+@property dispatch_queue_t taskQueue;
+@property dispatch_semaphore_t semaphore;
+
 @end
 
 @implementation MSLiveBlurView
@@ -80,17 +83,24 @@ static const int kDefaultBlurInterval = 0.5;
         [self updateSubviewOrientations:[UIApplication sharedApplication].statusBarOrientation];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChange:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     return self;
 }
 
 -(void)initGPUImageElements
 {
-    _stillImageSource = [[GPUImageUIElement alloc] initWithView:[UIApplication sharedApplication].delegate.window];
-    _filter = [[GPUImageGaussianBlurFilter alloc] init];
-    _filter.blurRadiusInPixels = kDefaultBlurRadius;
+    self.taskQueue = dispatch_queue_create("SupportKitGPUImageContextQueue", DISPATCH_QUEUE_SERIAL);
+    dispatch_set_target_queue(self.taskQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0));
+    self.semaphore = dispatch_semaphore_create(1);
     
-    [_stillImageSource addTarget:_filter];
+    dispatch_sync(self.taskQueue, ^{
+        _stillImageSource = [[GPUImageUIElement alloc] initWithView:[UIApplication sharedApplication].delegate.window];
+        _filter = [[GPUImageGaussianBlurFilter alloc] init];
+        _filter.blurRadiusInPixels = kDefaultBlurRadius;
+        
+        [_stillImageSource addTarget:_filter];
+    });
 }
 
 -(void)initTintView
@@ -113,10 +123,17 @@ static const int kDefaultBlurInterval = 0.5;
     [self updateMaskedAreas];
     
     if(self.blurTimer == nil && self.blurInterval != kLiveBlurIntervalStatic){
-        self.blurTimer = [NSTimer scheduledTimerWithTimeInterval:self.blurInterval target:self selector:@selector(updateBlur) userInfo:nil repeats:YES];
+        [self startTimer];
     }
     
     return rect;
+}
+
+-(void)startTimer
+{
+    dispatch_sync(self.taskQueue, ^{
+        self.blurTimer = [NSTimer scheduledTimerWithTimeInterval:self.blurInterval target:self selector:@selector(updateBlur) userInfo:nil repeats:YES];
+    });
 }
 
 -(void)stopBlurringRect:(CGRect)rect
@@ -186,17 +203,19 @@ static const int kDefaultBlurInterval = 0.5;
 
 -(void)forceUpdateBlur
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    dispatch_async(self.taskQueue, ^{
         [self updateBlur];
     });
 }
 
 -(void)updateBlur
 {
-    @synchronized(self){
-        [self.stillImageSource update];
-    }
+    dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+    
+    [self.stillImageSource update];
     UIImage *processedImage = [self.filter imageFromCurrentlyProcessedOutput];
+    
+    dispatch_semaphore_signal(self.semaphore);
     
     CABasicAnimation *crossFade = [CABasicAnimation animationWithKeyPath:@"contents"];
     crossFade.duration = 0.1;
@@ -235,6 +254,22 @@ static const int kDefaultBlurInterval = 0.5;
     [self.blurTimer invalidate];
     [self.blurredImageView removeFromSuperview];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)enterBackground
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [self.blurTimer invalidate];
+    dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+}
+
+-(void)becomeActive
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    dispatch_semaphore_signal(self.semaphore);
+    if(self.blurTimer != nil){
+        [self startTimer];
+    }
 }
 
 @end
