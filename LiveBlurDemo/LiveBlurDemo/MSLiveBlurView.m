@@ -277,12 +277,14 @@ static const int kDefaultBlurInterval = 0.5;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
     [self.blurTimer invalidate];
     dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
 -(void)becomeActive
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     dispatch_semaphore_signal(self.semaphore);
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     if(self.blurTimer != nil){
         [self startTimer];
     }
