@@ -7,7 +7,7 @@
 //
 
 #import "MSAppDelegate.h"
-#import "MSMainViewController.h"
+#import "MSDemoViewController.h"
 
 @implementation MSAppDelegate
 
@@ -17,7 +17,7 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
-    self.window.rootViewController = [MSMainViewController new];
+    self.window.rootViewController = [MSDemoViewController new];
     [self.window makeKeyAndVisible];
     
     

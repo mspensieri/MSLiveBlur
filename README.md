@@ -12,35 +12,35 @@ I use a condensed version of [GPUImage](https://github.com/BradLarson/GPUImage) 
 
 # Usage
 
+Drag the MSLiveBlur folder into your XCode project, and include the required system dependencies:
+* CoreGraphics.framework
+* UIKit.framework
+* Foundation.framework
+
 #### For live blur:
 
     #import "MSLiveBlur.h"
-    UIView* someView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-    [[MSLiveBlurView sharedInstance] blurRect:someView.frame];
-    [[MSLiveBlurView sharedInstance] addSubview:view];
+    [MSLiveBlur sharedInstance].isStatic = NO;
+    [[MSLiveBlur sharedInstance] blurRect:someView.frame];
 
 #### For static blur:
 
     #import "MSLiveBlur.h"
-    UIView* someView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-    [[MSLiveBlurView sharedInstance] setBlurInterval:kLiveBlurIntervalStatic];
-    [[MSLiveBlurView sharedInstance] blurRect:someView.frame];
-    [[MSLiveBlurView sharedInstance] addSubview:view];
+    [[MSLiveBlur sharedInstance] blurRect:someView.frame];
 
 then, to update manually:
 
-    [[MSLiveBlurView sharedInstance] forceUpdateBlur];
+    [[MSLiveBlur sharedInstance] forceUpdateBlur];
 
-#### A note about landscape:
+#### Adding subviews:
 
-This library uses an additional UIWindow to host the blur and its subviews.
-UIWindow does not change bounds or orientation when rotating to landscape mode, so the frames you supply to +blurRect must be specified as if the device were in portrait.
-I'm working on a way to make this easier to deal with.
+    UIView* overlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    [[MSLiveBlur sharedInstance] addSubview:overlayView];
 
 # Todo:
 * Figure out how to only blur views beneath so as not to require a new window
 * Different shapes (ex: rounded corners)
-* Improve landscape
+* Enable touches on subviews
 
 # Done
 * Live blur with variable interval
@@ -50,6 +50,3 @@ I'm working on a way to make this easier to deal with.
 * Support multiple areas at once
 * Allow subviews on top of the blurred area
 * Landscape
-
-
-Send me a message if you use this lib and you want your app listed here!

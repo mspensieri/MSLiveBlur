@@ -1,5 +1,5 @@
 //
-//  MSMainViewController.h
+//  MSDemoViewController.h
 //  LiveBlurDemo
 //
 //  Created by Michael Spensieri on 3/21/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MSMainViewController : UIViewController
+@interface MSDemoViewController : UIViewController
 
 @end

@@ -1,5 +1,7 @@
 /***********************************************************************************
  *
+ * MSImageView.m
+ *
  * Copyright (c) 2014 Michael Spensieri
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,23 +24,20 @@
  *
  ***********************************************************************************/
 
-#import <UIKit/UIKit.h>
+#import "MSImageView.h"
 
-extern const int kLiveBlurIntervalStatic;
+@implementation MSImageView
 
-@interface MSLiveBlurView : NSObject
-
-+(instancetype)sharedInstance;
-
--(CGRect)blurRect:(CGRect)rect;
--(void)stopBlurringRect:(CGRect)rect;
-
--(void)addSubview:(UIView*)view;
-
--(void)forceUpdateBlur;
-
-@property double blurRadius;
-@property double blurInterval;
-@property UIColor* tintColor;
+-(void)crossfadeToImage:(UIImage *)image
+{
+    CABasicAnimation *crossFade = [CABasicAnimation animationWithKeyPath:@"contents"];
+    crossFade.duration = 0.1;
+    crossFade.fromValue = (__bridge id)(self.image.CGImage);
+    crossFade.toValue = (__bridge id)(image.CGImage);
+    
+    [self.layer addAnimation:crossFade forKey:kCATransition];
+    
+    [self setImage:image];
+}
 
 @end

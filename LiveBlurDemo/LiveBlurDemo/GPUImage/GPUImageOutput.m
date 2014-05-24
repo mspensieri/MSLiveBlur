@@ -290,21 +290,21 @@ void runAsynchronouslyOnVideoProcessingQueue(void (^block)(void))
 
 - (CGImageRef)newCGImageFromCurrentlyProcessedOutput;
 {
-	UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
+	UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     UIImageOrientation imageOrientation = UIImageOrientationLeft;
-	switch (deviceOrientation)
+	switch (orientation)
     {
-		case UIDeviceOrientationPortrait:
+		case UIInterfaceOrientationPortrait:
 			imageOrientation = UIImageOrientationUp;
 			break;
-		case UIDeviceOrientationPortraitUpsideDown:
+		case UIInterfaceOrientationPortraitUpsideDown:
 			imageOrientation = UIImageOrientationDown;
 			break;
-		case UIDeviceOrientationLandscapeLeft:
-			imageOrientation = UIImageOrientationLeft;
-			break;
-		case UIDeviceOrientationLandscapeRight:
+		case UIInterfaceOrientationLandscapeLeft:
 			imageOrientation = UIImageOrientationRight;
+			break;
+		case UIInterfaceOrientationLandscapeRight:
+			imageOrientation = UIImageOrientationLeft;
 			break;
 		default:
 			imageOrientation = UIImageOrientationUp;
@@ -316,21 +316,21 @@ void runAsynchronouslyOnVideoProcessingQueue(void (^block)(void))
 
 - (UIImage *)imageFromCurrentlyProcessedOutput;
 {
-	UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
+	UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     UIImageOrientation imageOrientation = UIImageOrientationLeft;
-	switch (deviceOrientation)
+	switch (orientation)
     {
-		case UIDeviceOrientationPortrait:
+		case UIInterfaceOrientationPortrait:
 			imageOrientation = UIImageOrientationUp;
 			break;
-		case UIDeviceOrientationPortraitUpsideDown:
+		case UIInterfaceOrientationPortraitUpsideDown:
 			imageOrientation = UIImageOrientationDown;
 			break;
-		case UIDeviceOrientationLandscapeLeft:
-			imageOrientation = UIImageOrientationLeft;
-			break;
-		case UIDeviceOrientationLandscapeRight:
+		case UIInterfaceOrientationLandscapeLeft:
 			imageOrientation = UIImageOrientationRight;
+			break;
+		case UIInterfaceOrientationLandscapeRight:
+			imageOrientation = UIImageOrientationLeft;
 			break;
 		default:
 			imageOrientation = UIImageOrientationUp;

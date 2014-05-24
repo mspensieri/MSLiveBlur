@@ -1,5 +1,7 @@
 /***********************************************************************************
  *
+ * MSLiveBlur.m
+ *
  * Copyright (c) 2014 Michael Spensieri
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,21 +24,16 @@
  *
  ***********************************************************************************/
 
-#import "MSLiveBlurView.h"
+#import "MSLiveBlur.h"
 #import "GPUImageUIElement.h"
 #import "GPUImageGaussianBlurFilter.h"
-
-static UIWindow* blurWindow;
-
-const int kLiveBlurIntervalStatic = -1;
+#import "MSViewController.h"
+#import "MSImageView.h"
 
 static const int kDefaultBlurRadius = 5;
 static const int kDefaultBlurInterval = 0.5;
 
-@interface MSLiveBlurView()
-
-@property UIImageView* blurredImageView;
-@property UIView* tintView;
+@interface MSLiveBlur()
 
 @property GPUImageUIElement* stillImageSource;
 @property GPUImageGaussianBlurFilter* filter;
@@ -47,38 +44,18 @@ static const int kDefaultBlurInterval = 0.5;
 @property dispatch_queue_t taskQueue;
 @property dispatch_semaphore_t semaphore;
 
+@property UIWindow* blurWindow;
+@property(weak) MSViewController* viewController;
+
 @end
 
-@implementation MSLiveBlurView
-
-+(void)load
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidFinishLaunching) name:UIApplicationDidFinishLaunchingNotification object:nil];
-}
-
-+(void)applicationDidFinishLaunching
-{
-    [self ensureWindowExists];
-    blurWindow.hidden = NO;
-}
-
-+(void)ensureWindowExists
-{
-    if(blurWindow == nil){
-        blurWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        blurWindow.backgroundColor = [UIColor clearColor];
-        blurWindow.windowLevel = UIWindowLevelNormal + 1;
-        blurWindow.userInteractionEnabled = NO;
-    }
-}
+@implementation MSLiveBlur
 
 +(instancetype)sharedInstance
 {
-    [self ensureWindowExists];
-    
-    static MSLiveBlurView* sharedInstance;
+    static MSLiveBlur* sharedInstance;
     if(!sharedInstance){
-        sharedInstance = [[MSLiveBlurView alloc] init];
+        sharedInstance = [[MSLiveBlur alloc] init];
     }
     return sharedInstance;
 }
@@ -89,19 +66,25 @@ static const int kDefaultBlurInterval = 0.5;
     if (self) {
         _activeBlurAreas = [NSMutableArray new];
         _blurInterval = kDefaultBlurInterval;
+        _isStatic = YES;
         
-        _blurredImageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        [blurWindow addSubview:_blurredImageView];
-        
+        [self initWindow];
         [self initGPUImageElements];
-        [self initTintView];
         
-        [self updateSubviewOrientations:[UIApplication sharedApplication].statusBarOrientation];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChange:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     return self;
+}
+
+-(void)initWindow
+{
+    _blurWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    _blurWindow.backgroundColor = [UIColor clearColor];
+    _blurWindow.windowLevel = UIWindowLevelNormal + 1;
+    _blurWindow.userInteractionEnabled = NO;
+    _blurWindow.rootViewController = [[MSViewController alloc] init];
+    
+    _viewController = (MSViewController*)self.blurWindow.rootViewController;
 }
 
 -(void)initGPUImageElements
@@ -119,26 +102,15 @@ static const int kDefaultBlurInterval = 0.5;
     });
 }
 
--(void)initTintView
-{
-    _tintView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    _tintView.alpha = 0.1;
-    _tintView.backgroundColor = [UIColor lightGrayColor];
-    [blurWindow addSubview:_tintView];
-}
-
--(void)orientationChange:(NSNotification*)notification
-{
-    [self updateSubviewOrientations:[[notification.userInfo objectForKey:UIApplicationStatusBarOrientationUserInfoKey] intValue]];
-}
-
 -(CGRect)blurRect:(CGRect)rect
 {
+    self.blurWindow.hidden = NO;
+    
     [self.activeBlurAreas addObject:[NSValue valueWithCGRect:rect]];
     
     [self updateMaskedAreas];
     
-    if(self.blurTimer == nil && self.blurInterval != kLiveBlurIntervalStatic){
+    if(self.blurTimer == nil && !self.isStatic){
         [self startTimer];
     }
     
@@ -159,6 +131,7 @@ static const int kDefaultBlurInterval = 0.5;
     if(self.activeBlurAreas.count == 0){
         [self.blurTimer invalidate];
         self.blurTimer = nil;
+        self.blurWindow.hidden = YES;
     }
     
     [self updateMaskedAreas];
@@ -166,9 +139,7 @@ static const int kDefaultBlurInterval = 0.5;
 
 -(void)addSubview:(UIView *)view
 {
-    [blurWindow addSubview:view];
-    
-    [self updateSubviewOrientations:[UIApplication sharedApplication].statusBarOrientation];
+    [self.viewController.view addSubview:view];
 }
 
 -(void)updateMaskedAreas
@@ -188,33 +159,7 @@ static const int kDefaultBlurInterval = 0.5;
     maskLayer.path = path;
     CGPathRelease(path);
     
-    blurWindow.layer.mask = maskLayer;
-}
-
--(void)updateSubviewOrientations:(UIInterfaceOrientation)orientation
-{
-    CGAffineTransform transform;
-    switch (orientation) {
-        case UIInterfaceOrientationLandscapeLeft:
-            transform = CGAffineTransformMakeRotation(3*M_PI_2);
-            break;
-        case UIInterfaceOrientationLandscapeRight:
-            transform = CGAffineTransformMakeRotation(M_PI_2);
-            break;
-        case UIInterfaceOrientationPortrait:
-            transform = CGAffineTransformMakeRotation(0);
-            break;
-        case UIInterfaceOrientationPortraitUpsideDown:
-            transform = CGAffineTransformMakeRotation(M_PI);
-            break;
-    }
-    
-    for(UIView* view in blurWindow.subviews){
-        view.transform = transform;
-    }
-    
-    self.tintView.frame = [UIScreen mainScreen].bounds;
-    self.blurredImageView.frame = [UIScreen mainScreen].bounds;
+    self.viewController.view.layer.mask = maskLayer;
 }
 
 -(void)forceUpdateBlur
@@ -233,15 +178,8 @@ static const int kDefaultBlurInterval = 0.5;
     
     dispatch_semaphore_signal(self.semaphore);
     
-    CABasicAnimation *crossFade = [CABasicAnimation animationWithKeyPath:@"contents"];
-    crossFade.duration = 0.1;
-    crossFade.fromValue = (__bridge id)(self.blurredImageView.image.CGImage);
-    crossFade.toValue = (__bridge id)(processedImage.CGImage);
-    
-    [self.blurredImageView.layer addAnimation:crossFade forKey:kCATransition];
-    
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.blurredImageView setImage:processedImage];
+        [self.viewController.imageView crossfadeToImage:processedImage];
     });
 }
 
@@ -257,18 +195,17 @@ static const int kDefaultBlurInterval = 0.5;
 
 -(void)setTintColor:(UIColor *)tintColor
 {
-    self.tintView.backgroundColor = tintColor;
+    self.viewController.tintView.backgroundColor = tintColor;
 }
 
 -(UIColor*)tintColor
 {
-    return self.tintView.backgroundColor;
+    return self.viewController.tintView.backgroundColor;
 }
 
 -(void)dealloc
 {
     [self.blurTimer invalidate];
-    [self.blurredImageView removeFromSuperview];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
