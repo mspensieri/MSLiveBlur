@@ -1,6 +1,6 @@
 /***********************************************************************************
  *
- * MSLiveBlur.h
+ * MSBlurWindow.h
  *
  * Copyright (c) 2014 Michael Spensieri
  *
@@ -26,20 +26,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MSLiveBlur : NSObject
-
-+(instancetype)sharedInstance;
-
--(void)blurRect:(CGRect)rect;
--(void)stopBlurringRect:(CGRect)rect;
-
--(void)addSubview:(UIView*)view;
-
--(void)forceUpdateBlur;
-
-@property BOOL isStatic;
-@property double blurRadius;
-@property double blurInterval;
-@property UIColor* tintColor;
+@interface MSBlurWindow : UIWindow
 
 @end

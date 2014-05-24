@@ -25,10 +25,12 @@
  ***********************************************************************************/
 
 #import <UIKit/UIKit.h>
+#import "MSViewControllerView.h"
 @class MSImageView;
 
 @interface MSViewController : UIViewController
 
+@property(nonatomic) MSViewControllerView* view;
 @property MSImageView* imageView;
 @property UIView* tintView;
 

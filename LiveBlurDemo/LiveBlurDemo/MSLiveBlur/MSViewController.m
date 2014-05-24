@@ -27,11 +27,12 @@
 #import "MSViewController.h"
 #import "MSImageView.h"
 
-@interface MSViewController ()
-
-@end
-
 @implementation MSViewController
+
+-(void)loadView
+{
+    self.view = [[MSViewControllerView alloc] init];
+}
 
 - (void)viewDidLoad
 {
@@ -43,14 +44,6 @@
     [self initTintView];
 }
 
--(void)viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-    
-    self.imageView.frame = self.view.bounds;
-    self.tintView.frame = self.view.bounds;
-}
-
 -(void)initImageView
 {
     self.imageView = [[MSImageView alloc] init];
@@ -59,10 +52,18 @@
 
 -(void)initTintView
 {
-    _tintView = [[UIView alloc] init];
-    _tintView.alpha = 0.1;
-    _tintView.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:_tintView];
+    self.tintView = [[UIView alloc] init];
+    self.tintView.alpha = 0.1;
+    self.tintView.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:self.tintView];
+}
+
+-(void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    self.imageView.frame = self.view.bounds;
+    self.tintView.frame = self.view.bounds;
 }
 
 @end

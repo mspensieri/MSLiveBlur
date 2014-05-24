@@ -1,6 +1,6 @@
 /***********************************************************************************
  *
- * MSLiveBlur.h
+ * MSBlurWindow.m
  *
  * Copyright (c) 2014 Michael Spensieri
  *
@@ -24,22 +24,29 @@
  *
  ***********************************************************************************/
 
-#import <UIKit/UIKit.h>
+#import "MSBlurWindow.h"
 
-@interface MSLiveBlur : NSObject
+@implementation MSBlurWindow
 
-+(instancetype)sharedInstance;
-
--(void)blurRect:(CGRect)rect;
--(void)stopBlurringRect:(CGRect)rect;
-
--(void)addSubview:(UIView*)view;
-
--(void)forceUpdateBlur;
-
-@property BOOL isStatic;
-@property double blurRadius;
-@property double blurInterval;
-@property UIColor* tintColor;
+-(BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
+{
+    CGSize size = self.bounds.size;
+    
+    // Convert point to correct orientation
+    switch ([UIApplication sharedApplication].statusBarOrientation) {
+        case UIInterfaceOrientationLandscapeLeft:
+            point = CGPointMake(size.height - point.y, point.x);
+            break;
+        case UIInterfaceOrientationLandscapeRight:
+            point = CGPointMake(point.y, size.width - point.x);
+            break;
+        case UIInterfaceOrientationPortraitUpsideDown:
+            point = CGPointMake(size.width - point.x, size.height - point.y);
+            break;
+        case UIInterfaceOrientationPortrait:
+            break;
+    }
+    return [self.rootViewController.view pointInside:point withEvent:event];
+}
 
 @end

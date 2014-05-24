@@ -16,7 +16,7 @@ static const CGFloat kSliderWidth = 200;
 @interface MSDemoViewController()
 
 @property NSMutableArray* textLabels;
-@property CGRect dynamicRect;
+@property CGRect movableRect;
 @property UISlider* slider;
 @property NSTimer* textColorTimer;
 
@@ -24,28 +24,37 @@ static const CGFloat kSliderWidth = 200;
 
 @implementation MSDemoViewController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        srand((unsigned int)time(NULL));
+    }
+    return self;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UIPanGestureRecognizer* panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
+    [self.view addGestureRecognizer:panGesture];
 
     [self initTextLabels];
     [self initSlider];
     [self initHiddenTextLabel];
-    
-    self.dynamicRect = [[MSLiveBlur sharedInstance] blurRect:CGRectMake(0, 0, 100, 100)];
-    
+    [self configureBlur];
+}
+
+-(void)configureBlur
+{
     [MSLiveBlur sharedInstance].isStatic = NO;
     
-    CGRect staticRect = CGRectMake(220, 340, 100, 100);
-    [[MSLiveBlur sharedInstance] blurRect:staticRect];
+    self.movableRect = CGRectMake(0, 0, 100, 100);
+    [[MSLiveBlur sharedInstance] blurRect:self.movableRect];
     
-   self.textColorTimer = [NSTimer scheduledTimerWithTimeInterval:kTimerInterval target:self selector:@selector(changeColor) userInfo:nil repeats:YES];
-    
-    UIPanGestureRecognizer* panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
-    [self.view addGestureRecognizer:panGesture];
-    
-    srand((unsigned int)time(NULL));
+    CGRect stillRect = CGRectMake(220, 340, 100, 100);
+    [[MSLiveBlur sharedInstance] blurRect:stillRect];
 }
 
 -(void)initTextLabels
@@ -64,6 +73,8 @@ static const CGFloat kSliderWidth = 200;
         
         [self.textLabels addObject:label];
     }
+    
+    self.textColorTimer = [NSTimer scheduledTimerWithTimeInterval:kTimerInterval target:self selector:@selector(changeColors) userInfo:nil repeats:YES];
 }
 
 -(void)initSlider
@@ -87,7 +98,8 @@ static const CGFloat kSliderWidth = 200;
     [self.textLabels addObject:label];
 }
 
--(void)sliderValueChanged:(UISlider *)sender {
+-(void)sliderValueChanged:(UISlider *)sender
+{
     [MSLiveBlur sharedInstance].blurRadius = 10 * sender.value;
 }
 
@@ -95,13 +107,15 @@ static const CGFloat kSliderWidth = 200;
 {
     if(sender.state == UIGestureRecognizerStateChanged){
         CGPoint translation = [sender translationInView:sender.view];
-        [[MSLiveBlur sharedInstance] stopBlurringRect:self.dynamicRect];
-        self.dynamicRect = [[MSLiveBlur sharedInstance] blurRect:CGRectOffset(self.dynamicRect, translation.x, translation.y)];
+        [[MSLiveBlur sharedInstance] stopBlurringRect:self.movableRect];
+        
+        self.movableRect = CGRectOffset(self.movableRect, translation.x, translation.y);
+        [[MSLiveBlur sharedInstance] blurRect:self.movableRect];
         [sender setTranslation:CGPointZero inView:sender.view];
     }
 }
 
--(void)changeColor
+-(void)changeColors
 {
     for(UILabel* label in self.textLabels){
         label.textColor = [UIColor colorWithRed:[self randomFloat] green:[self randomFloat] blue:[self randomFloat] alpha:1.0];

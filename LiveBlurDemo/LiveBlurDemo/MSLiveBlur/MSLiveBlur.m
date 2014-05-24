@@ -29,6 +29,7 @@
 #import "GPUImageGaussianBlurFilter.h"
 #import "MSViewController.h"
 #import "MSImageView.h"
+#import "MSBlurWindow.h"
 
 static const int kDefaultBlurRadius = 5;
 static const int kDefaultBlurInterval = 0.5;
@@ -38,8 +39,6 @@ static const int kDefaultBlurInterval = 0.5;
 @property GPUImageUIElement* stillImageSource;
 @property GPUImageGaussianBlurFilter* filter;
 @property NSTimer* blurTimer;
-
-@property NSMutableArray* activeBlurAreas;
 
 @property dispatch_queue_t taskQueue;
 @property dispatch_semaphore_t semaphore;
@@ -64,7 +63,6 @@ static const int kDefaultBlurInterval = 0.5;
 {
     self = [super init];
     if (self) {
-        _activeBlurAreas = [NSMutableArray new];
         _blurInterval = kDefaultBlurInterval;
         _isStatic = YES;
         
@@ -78,22 +76,21 @@ static const int kDefaultBlurInterval = 0.5;
 
 -(void)initWindow
 {
-    _blurWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    _blurWindow = [[MSBlurWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     _blurWindow.backgroundColor = [UIColor clearColor];
     _blurWindow.windowLevel = UIWindowLevelNormal + 1;
-    _blurWindow.userInteractionEnabled = NO;
     _blurWindow.rootViewController = [[MSViewController alloc] init];
     
-    _viewController = (MSViewController*)self.blurWindow.rootViewController;
+    _viewController = (MSViewController*)_blurWindow.rootViewController;
 }
 
 -(void)initGPUImageElements
 {
-    self.taskQueue = dispatch_queue_create("SupportKitGPUImageContextQueue", DISPATCH_QUEUE_SERIAL);
-    dispatch_set_target_queue(self.taskQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0));
-    self.semaphore = dispatch_semaphore_create(1);
+    _taskQueue = dispatch_queue_create("MSLiveBlurGPUImageContextQueue", DISPATCH_QUEUE_SERIAL);
+    dispatch_set_target_queue(_taskQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0));
+    _semaphore = dispatch_semaphore_create(1);
     
-    dispatch_sync(self.taskQueue, ^{
+    dispatch_sync(_taskQueue, ^{
         _stillImageSource = [[GPUImageUIElement alloc] initWithView:[UIApplication sharedApplication].delegate.window];
         _filter = [[GPUImageGaussianBlurFilter alloc] init];
         _filter.blurRadiusInPixels = kDefaultBlurRadius;
@@ -102,19 +99,14 @@ static const int kDefaultBlurInterval = 0.5;
     });
 }
 
--(CGRect)blurRect:(CGRect)rect
+-(void)blurRect:(CGRect)rect
 {
     self.blurWindow.hidden = NO;
     
-    [self.activeBlurAreas addObject:[NSValue valueWithCGRect:rect]];
-    
-    [self updateMaskedAreas];
-    
+    [self.viewController.view blurRect:rect];
     if(self.blurTimer == nil && !self.isStatic){
         [self startTimer];
     }
-    
-    return rect;
 }
 
 -(void)startTimer
@@ -126,40 +118,18 @@ static const int kDefaultBlurInterval = 0.5;
 
 -(void)stopBlurringRect:(CGRect)rect
 {
-    [self.activeBlurAreas removeObject:[NSValue valueWithCGRect:rect]];
+    [self.viewController.view stopBlurringRect:rect];
     
-    if(self.activeBlurAreas.count == 0){
+    if(![self.viewController.view hasBlurredArea]){
         [self.blurTimer invalidate];
         self.blurTimer = nil;
         self.blurWindow.hidden = YES;
     }
-    
-    [self updateMaskedAreas];
 }
 
 -(void)addSubview:(UIView *)view
 {
     [self.viewController.view addSubview:view];
-}
-
--(void)updateMaskedAreas
-{
-    CGMutablePathRef path = CGPathCreateMutable();
-    
-    CGPathMoveToPoint(path, NULL, 0, 0);
-    
-    for(int i = 0; i < self.activeBlurAreas.count; i++){
-        CGRect frame = [self.activeBlurAreas[i] CGRectValue];
-        CGPathAddRect(path, NULL, frame);
-    }
-    
-    CGPathCloseSubpath(path);
-    
-    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-    maskLayer.path = path;
-    CGPathRelease(path);
-    
-    self.viewController.view.layer.mask = maskLayer;
 }
 
 -(void)forceUpdateBlur

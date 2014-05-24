@@ -21,6 +21,8 @@
 		279ADCFE1930E9E500D01D3A /* MSImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 279ADCEE1930E9E500D01D3A /* MSImageView.m */; };
 		279ADCFF1930E9E500D01D3A /* MSLiveBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 279ADCF01930E9E500D01D3A /* MSLiveBlur.m */; };
 		279ADD001930E9E500D01D3A /* MSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 279ADCF21930E9E500D01D3A /* MSViewController.m */; };
+		279ADD06193102C400D01D3A /* MSViewControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 279ADD05193102C400D01D3A /* MSViewControllerView.m */; };
+		279ADD09193103E900D01D3A /* MSBlurWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 279ADD08193103E800D01D3A /* MSBlurWindow.m */; };
 		DC8EF73C18DCB730006E1433 /* MSDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8EF72118DCB730006E1433 /* MSDemoViewController.m */; };
 		DCF7C76A18DCB6950037EBAA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF7C76918DCB6950037EBAA /* Foundation.framework */; };
 		DCF7C76C18DCB6950037EBAA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF7C76B18DCB6950037EBAA /* CoreGraphics.framework */; };
@@ -75,6 +77,10 @@
 		279ADCF01930E9E500D01D3A /* MSLiveBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLiveBlur.m; sourceTree = "<group>"; };
 		279ADCF11930E9E500D01D3A /* MSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSViewController.h; sourceTree = "<group>"; };
 		279ADCF21930E9E500D01D3A /* MSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSViewController.m; sourceTree = "<group>"; };
+		279ADD04193102C400D01D3A /* MSViewControllerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSViewControllerView.h; sourceTree = "<group>"; };
+		279ADD05193102C400D01D3A /* MSViewControllerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSViewControllerView.m; sourceTree = "<group>"; };
+		279ADD07193103E800D01D3A /* MSBlurWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSBlurWindow.h; sourceTree = "<group>"; };
+		279ADD08193103E800D01D3A /* MSBlurWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBlurWindow.m; sourceTree = "<group>"; };
 		DC8EF72018DCB730006E1433 /* MSDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDemoViewController.h; sourceTree = "<group>"; };
 		DC8EF72118DCB730006E1433 /* MSDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDemoViewController.m; sourceTree = "<group>"; };
 		DCF7C76618DCB6950037EBAA /* LiveBlurDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveBlurDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,6 +135,10 @@
 				279ADCF01930E9E500D01D3A /* MSLiveBlur.m */,
 				279ADCF11930E9E500D01D3A /* MSViewController.h */,
 				279ADCF21930E9E500D01D3A /* MSViewController.m */,
+				279ADD07193103E800D01D3A /* MSBlurWindow.h */,
+				279ADD08193103E800D01D3A /* MSBlurWindow.m */,
+				279ADD04193102C400D01D3A /* MSViewControllerView.h */,
+				279ADD05193102C400D01D3A /* MSViewControllerView.m */,
 			);
 			path = MSLiveBlur;
 			sourceTree = "<group>";
@@ -352,9 +362,11 @@
 				279ADCF61930E9E500D01D3A /* GPUImageGaussianBlurFilter.m in Sources */,
 				DCF7C77618DCB6950037EBAA /* main.m in Sources */,
 				279ADCFE1930E9E500D01D3A /* MSImageView.m in Sources */,
+				279ADD06193102C400D01D3A /* MSViewControllerView.m in Sources */,
 				279ADCFF1930E9E500D01D3A /* MSLiveBlur.m in Sources */,
 				DC8EF73C18DCB730006E1433 /* MSDemoViewController.m in Sources */,
 				279ADCFD1930E9E500D01D3A /* GPUImageContext.m in Sources */,
+				279ADD09193103E900D01D3A /* MSBlurWindow.m in Sources */,
 				279ADCFB1930E9E500D01D3A /* GPUImageTwoPassTextureSamplingFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
