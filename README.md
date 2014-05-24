@@ -40,7 +40,6 @@ then, to update manually:
 # Todo:
 * Figure out how to only blur views beneath so as not to require a new window
 * Different shapes (ex: rounded corners)
-* Enable touches on subviews
 
 # Done
 * Live blur with variable interval
@@ -50,3 +49,4 @@ then, to update manually:
 * Support multiple areas at once
 * Allow subviews on top of the blurred area
 * Landscape
+* Enable touches on subviews
