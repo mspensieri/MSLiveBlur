@@ -29,6 +29,16 @@
 
 @implementation MSViewController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self initImageView];
+        [self initTintView];
+    }
+    return self;
+}
+
 -(void)loadView
 {
     self.view = [[MSViewControllerView alloc] init];
@@ -40,14 +50,13 @@
     
     self.view.backgroundColor = [UIColor clearColor];
     
-    [self initImageView];
-    [self initTintView];
+    [self.view addSubview:self.imageView];
+    [self.view addSubview:self.tintView];
 }
 
 -(void)initImageView
 {
     self.imageView = [[MSImageView alloc] init];
-    [self.view addSubview:self.imageView];
 }
 
 -(void)initTintView
@@ -55,7 +64,6 @@
     self.tintView = [[UIView alloc] init];
     self.tintView.alpha = 0.1;
     self.tintView.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:self.tintView];
 }
 
 -(void)viewDidLayoutSubviews
