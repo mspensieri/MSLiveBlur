@@ -28,25 +28,30 @@
 
 @implementation MSBlurWindow
 
+// Ignore touches that are not on the blurred area
 -(BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
+{
+    if(floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1){
+        point = [self reorientedPoint:point];
+    }
+    return [self.rootViewController.view pointInside:point withEvent:event];
+}
+
+-(CGPoint)reorientedPoint:(CGPoint)point
 {
     CGSize size = self.bounds.size;
     
     // Convert point to correct orientation
     switch ([UIApplication sharedApplication].statusBarOrientation) {
         case UIInterfaceOrientationLandscapeLeft:
-            point = CGPointMake(size.height - point.y, point.x);
-            break;
+            return CGPointMake(size.height - point.y, point.x);
         case UIInterfaceOrientationLandscapeRight:
-            point = CGPointMake(point.y, size.width - point.x);
-            break;
+            return CGPointMake(point.y, size.width - point.x);
         case UIInterfaceOrientationPortraitUpsideDown:
-            point = CGPointMake(size.width - point.x, size.height - point.y);
-            break;
-        case UIInterfaceOrientationPortrait:
-            break;
+            return CGPointMake(size.width - point.x, size.height - point.y);
+        default: // UIInterfaceOrientationPortrait, UIInterfaceOrientationUnknown
+            return point;
     }
-    return [self.rootViewController.view pointInside:point withEvent:event];
 }
 
 @end

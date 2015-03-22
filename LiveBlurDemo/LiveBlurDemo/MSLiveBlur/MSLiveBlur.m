@@ -144,7 +144,12 @@ static const int kDefaultBlurInterval = 0.5;
     dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
     
     [self.stillImageSource update];
-    UIImage *processedImage = [self.filter imageFromCurrentlyProcessedOutput];
+    UIImage *processedImage;
+    if(floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1){
+        processedImage = [self.filter imageFromCurrentlyProcessedOutput];
+    }else{
+        processedImage = [self.filter imageFromCurrentlyProcessedOutputWithOrientation:UIImageOrientationUp];
+    }
     
     dispatch_semaphore_signal(self.semaphore);
     
