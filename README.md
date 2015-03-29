@@ -19,23 +19,31 @@ Drag the MSLiveBlur folder into your XCode project, and include the required sys
 
 #### For live blur:
 
-    #import "MSLiveBlur.h"
-    [MSLiveBlur sharedInstance].isStatic = NO;
-    [[MSLiveBlur sharedInstance] blurRect:someView.frame];
+```objc
+#import "MSLiveBlur.h"
+[MSLiveBlur sharedInstance].isStatic = NO;
+[[MSLiveBlur sharedInstance] blurRect:someView.frame];
+```
 
 #### For static blur:
 
-    #import "MSLiveBlur.h"
-    [[MSLiveBlur sharedInstance] blurRect:someView.frame];
+```objc
+#import "MSLiveBlur.h"
+[[MSLiveBlur sharedInstance] blurRect:someView.frame];
+```
 
 then, to update manually:
 
-    [[MSLiveBlur sharedInstance] forceUpdateBlur];
+```objc
+[[MSLiveBlur sharedInstance] forceUpdateBlur];
+```
 
 #### Adding subviews:
 
-    UIView* overlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-    [[MSLiveBlur sharedInstance] addSubview:overlayView];
+```objc
+UIView* overlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+[[MSLiveBlur sharedInstance] addSubview:overlayView];
+```
 
 # Todo:
 * Figure out how to only blur views beneath so as not to require a new window
