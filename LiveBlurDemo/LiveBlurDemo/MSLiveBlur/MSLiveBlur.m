@@ -160,7 +160,7 @@ static const int kDefaultBlurInterval = 0.5;
 
 -(void)setBlurRadius:(double)blurRadius
 {
-    self.filter.blurRadiusInPixels = blurRadius;
+    self.filter.blurRadiusInPixels = MAX(blurRadius, 1);
 }
 
 -(double)blurRadius
